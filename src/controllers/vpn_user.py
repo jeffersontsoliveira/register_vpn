@@ -4,6 +4,7 @@ from sanic import Request
 from src.database.database import connection
 from datetime import datetime
 from src.utils.serialize import Serialize
+# from src.controllers.authorization import authorized
 import json
 
 
@@ -23,6 +24,8 @@ class UserVPNController:
 
     @staticmethod
     async def store(request: Request):
+        # if request.headers["admin"] is True:
+        print("aquiiiii: ",request.headers["postman-token"])
         with connection.atomic() as transaction:
             data = request.json
 

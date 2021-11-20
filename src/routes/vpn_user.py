@@ -1,8 +1,11 @@
 from src.controllers.vpn_user import UserVPNController
 from sanic import Blueprint
 from sanic.request import Request
+from src.controllers.authorization import app_authorization
 
 vpnuser = Blueprint('content_user', url_prefix='/vpnusers')
+
+decorators = app_authorization()
 
 
 @vpnuser.get('/')

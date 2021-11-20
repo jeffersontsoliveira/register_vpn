@@ -10,10 +10,10 @@ import jwt
 class SessionController:
     @staticmethod
     async def store(request: Request):
-        name = request.json['name']
+        name = request.json['username']
         password = request.json['password']
 
-        user = UserVPN.get_or_none(name=name)
+        user = UserVPN.get_or_none(username=name)
         if user is None:
             return response.json({'user': 'user not found'}, status=404)
 
