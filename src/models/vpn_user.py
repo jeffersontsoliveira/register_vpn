@@ -4,7 +4,7 @@ import peewee
 
 
 class UserVPN(BaseModel):
-    name = peewee.CharField()
+    name = peewee.CharField(unique=True)
     username = peewee.CharField(unique=True)
     password = peewee.CharField()
     admin = peewee.BooleanField(default=False)
@@ -22,8 +22,7 @@ class UserVPN(BaseModel):
     @exclude.getter
     def exclude(self):
         return [
-            UserVPN.password,
-            UserVPN.admin
+            UserVPN.password
         ]
 
 

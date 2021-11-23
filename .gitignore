@@ -1,4 +1,5 @@
 /venv
 /postgres
-*/__pycache__
-__pycache__
+.*/__pycache__/
+
+__pycache__/

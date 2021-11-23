@@ -17,26 +17,30 @@ class UserVPNController:
     async def show(request: Request, id_user):
         user = UserVPN.get_or_none(id=id_user)
 
-        if user is None:
+        if user.json['admin'] is True:
             return response.json({'user': 'user not found'}, status=404)
 
         return response.json(user.json, dumps=json.dumps, cls=Serialize)
 
     @staticmethod
     async def store(request: Request):
-        # if request.headers["admin"] is True:
-        print("aquiiiii: ",request.headers["postman-token"])
-        with connection.atomic() as transaction:
-            data = request.json
+        uid = request.headers['user']
+        user = UserVPN.get_or_none(id=uid).json
+        print(user)
+        if user['admin'] is True:
+            with connection.atomic() as transaction:
+                data = request.json
 
-            errors = UserVPN.validate(**data)
+                errors = UserVPN.validate(**data)
 
-            if bool(errors):
-                return response.json(errors, status=400)
+                if bool(errors):
+                    return response.json(errors, status=400)
 
-            user: UserVPN = UserVPN.create(**data)
+                user: UserVPN = UserVPN.create(**data)
 
-            return response.json(user.json, status=201, dumps=json.dumps, cls=Serialize)
+                return response.json(user.json, status=201, dumps=json.dumps, cls=Serialize)
+        else:
+            return response.json({'user': 'user has no permission'}, status=401)
 
     @staticmethod
     async def update(request: Request, id_user):

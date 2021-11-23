@@ -1,5 +1,4 @@
 from functools import wraps
-from sanic.response import json
 from src.models import UserVPN
 from sanic.request import Request
 from sanic import response
