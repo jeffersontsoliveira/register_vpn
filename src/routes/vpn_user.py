@@ -37,3 +37,10 @@ async def remove(request: Request, id_user):
 async def update(request: Request, id_user):
     return await UserVPNController.update(request, id_user)
 
+
+@vpnuser.put('/files/<filename:str>')
+@app_authorization()
+async def update(request: Request, filename):
+    from sanic import response
+    path = f'./storage/{filename}'
+    return await response.file(path)

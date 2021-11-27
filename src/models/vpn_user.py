@@ -1,5 +1,6 @@
 from src.database.database import BaseModel
 from datetime import datetime
+
 import peewee
 
 
@@ -8,6 +9,7 @@ class UserVPN(BaseModel):
     username = peewee.CharField(unique=True)
     password = peewee.CharField()
     admin = peewee.BooleanField(default=False)
+    filename = peewee.CharField()
 
     creatdAt = peewee.DateTimeField(default=datetime.utcnow())
     updatedAt = peewee.DateTimeField(default=datetime.utcnow())
@@ -24,6 +26,3 @@ class UserVPN(BaseModel):
         return [
             UserVPN.password
         ]
-
-
-

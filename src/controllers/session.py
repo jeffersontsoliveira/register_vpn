@@ -21,6 +21,7 @@ class SessionController:
             return response.json({'password': 'password does not match'}, status=403)
 
         expired = datetime.utcnow() + timedelta(minutes=30)
+
         secret = '5ba4919543f7d155c9838c20499e30c7'
 
         payload ={

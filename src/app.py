@@ -21,16 +21,17 @@ async def create_tables(server: Sanic, _):
 
 @app.listener('before_server_start')
 async def creat_user_admin(server: Sanic, _):
-    try:
-        UserVPN.create(
-            name="admin",
-            username="admin",
-            password="123456",
-            admin="1"
-        )
-    except Exception as e:
-        print("Error ao criar admin o db: ", str(e))
-        pass
+    with connection.atomic() as trasaction:
+        try:
+            UserVPN.create(
+                name="admin",
+                username="admin",
+                password="123456",
+                admin="1"
+            )
+        except Exception as e:
+            print("Error ao criar admin o db: ", str(e))
+            pass
 
 
 @app.listener('after_server_start')
