@@ -4,6 +4,7 @@ from sanic import Request
 from src.database.database import connection
 from datetime import datetime
 from src.utils.serialize import Serialize
+from src.services.create_vpn import create_user_vpn
 # from src.controllers.authorization import authorized
 import json
 
@@ -68,6 +69,9 @@ class UserVPNController:
             with connection.atomic() as transaction:
                 data = request.json
                 # data['filename'] =
+                print(data['username'])
+
+                await create_user_vpn(data['username'])
 
                 errors = UserVPN.validate(**data)
 
@@ -76,7 +80,7 @@ class UserVPNController:
 
                 user: UserVPN = UserVPN.create(**data)
                 user_dict: dict = user.json
-                user_dict['filename'] = f'http://0.0.0.0:3000/files/{user.filename}'
+                user_dict['filename'] = f'http://0.0.0.0:3000/storege/{user.filename}'
 
                 return response.json(user, status=201, dumps=json.dumps, cls=Serialize)
         else:

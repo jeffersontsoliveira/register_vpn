@@ -9,7 +9,7 @@ class UserVPN(BaseModel):
     username = peewee.CharField(unique=True)
     password = peewee.CharField()
     admin = peewee.BooleanField(default=False)
-    filename = peewee.CharField()
+    filename = peewee.CharField(null=True)
 
     creatdAt = peewee.DateTimeField(default=datetime.utcnow())
     updatedAt = peewee.DateTimeField(default=datetime.utcnow())
