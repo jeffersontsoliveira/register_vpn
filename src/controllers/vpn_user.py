@@ -68,15 +68,15 @@ class UserVPNController:
         if user['admin'] is True:
             with connection.atomic() as transaction:
                 data = request.json
-                # data['filename'] =
-                print(data['username'])
-
-                await create_user_vpn(data['username'])
 
                 errors = UserVPN.validate(**data)
 
                 if bool(errors):
                     return response.json(errors, status=400)
+
+                return_filename = await create_user_vpn(data['username'])
+
+                data['filename'] = return_filename
 
                 user: UserVPN = UserVPN.create(**data)
                 user_dict: dict = user.json
